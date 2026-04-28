@@ -1,0 +1,318 @@
+<!-- python -m http.server 8000 -->
+<!DOCTYPE html>
+  <html lang="en" class="bg-background">
+    <head>
+        <meta charSet="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <link rel="preload" href="/_next/static/media/797e433ab948586e-s.p.0.q-h669a_dqa.woff2" as="font" crossorigin="" type="font/woff2"/>
+        <link rel="preload" href="/_next/static/media/caa3a2e1cccd8315-s.p.16t1db8_9y2o~.woff2" as="font" crossorigin="" type="font/woff2"/>
+        <link rel="stylesheet" href="/_next/static/chunks/0x.pxwmy6tt~x.css" data-precedence="next"/>
+        <link rel="stylesheet" href="/_next/static/chunks/06.x.uhhzduss.css" data-precedence="next"/>
+        <link rel="preload" as="script" fetchPriority="low" href="/_next/static/chunks/0de0r0wy7t3ho.js"/>
+        <script src="/_next/static/chunks/16e6k6zyk5txd.js" async=""></script><script src="/_next/static/chunks/0~_-p-7d5gkxq.js" async=""></script><script src="/_next/static/chunks/01v4ji714~oz7.js" async=""></script><script src="/_next/static/chunks/turbopack-0q3v61xvslv1p.js" async=""></script><script src="/_next/static/chunks/0r3tio~hep86w.js" async=""></script><script src="/_next/static/chunks/0gkdb-6gfrq38.js" async=""></script><script src="/_next/static/chunks/0y-rf~dn57hde.js" async=""></script>
+        <meta name="next-size-adjust" content=""/>
+        <title>Amazon Feedback Sentiment Analysis</title>
+        <meta name="description" content="Analyze Amazon feedback with accurate sentiment scoring and text normalization"/>
+        <meta name="generator" content="v0.app"/>
+        <link rel="icon" href="/icon-light-32x32.png" media="(prefers-color-scheme: light)"/>
+        <link rel="icon" href="/icon-dark-32x32.png" media="(prefers-color-scheme: dark)"/>
+        <link rel="icon" href="/icon.svg" type="image/svg+xml"/>
+        <link rel="apple-touch-icon" href="/apple-icon.png"/>
+        <script src="/_next/static/chunks/03~yq9q893hmn.js" noModule=""></script>
+          <style>
+          h1 span.absolute[data-glitch-frozen] {
+            animation: none !important;
+            transition: none !important;
+          }
+        </style>
+        <script>
+          (function () {
+            /* Intercept setInterval/setTimeout to kill the scramble loop */
+            var _setInterval = window.setInterval;
+            var _setTimeout = window.setTimeout;
+            var _clearInterval = window.clearInterval;
+            var _clearTimeout = window.clearTimeout;
+            var capturedIntervals = [];
+
+            window.setInterval = function (fn, delay) {
+              var id = _setInterval.apply(this, arguments);
+              if (typeof delay === 'number' && delay <= 5000) capturedIntervals.push(id);
+              return id;
+            };
+
+            var CORRECT_TEXT = 'Amazon Feedback';
+
+            function lockText() {
+              /* Find the main visible title span and force its text back */
+              var h1 = document.querySelector('h1');
+              if (!h1) return;
+              /* The first span.relative > span.relative.z-10 holds the visible text */
+              var mainSpan = h1.querySelector('span.relative > span.relative');
+              if (mainSpan && mainSpan.textContent.trim() !== CORRECT_TEXT) {
+                mainSpan.textContent = CORRECT_TEXT;
+              }
+              /* Also lock shadow spans */
+              var shadows = h1.querySelectorAll('span.absolute');
+              shadows.forEach(function (el) {
+                if (el.textContent.trim() !== CORRECT_TEXT && el.textContent.trim() !== CORRECT_TEXT + ' ') {
+                  el.textContent = CORRECT_TEXT;
+                }
+                el.setAttribute('data-glitch-frozen', '1');
+                el.style.setProperty('animation', 'none', 'important');
+                el.style.setProperty('transition', 'none', 'important');
+              });
+            }
+
+            function killTimers() {
+              capturedIntervals.forEach(function (id) { _clearInterval(id); });
+              capturedIntervals = [];
+            }
+
+            var firstSeen = false;
+            var locked = false;
+            var debounce = null;
+
+            var obs = new MutationObserver(function (mutations) {
+              if (!locked) {
+                clearTimeout(debounce);
+                debounce = _setTimeout(function () {
+                  var h1 = document.querySelector('h1');
+                  if (!h1) return;
+                  if (!firstSeen) {
+                    firstSeen = true;
+                    /* Let the scramble play for ~2500ms (one fun pass), then freeze */
+                    _setTimeout(function () {
+                      locked = true;
+                      killTimers();
+                      lockText();
+                      /* Keep observer alive to re-lock if React tries again */
+                      locked = false;
+                    }, 2500);
+                  } else if (locked) {
+                    lockText();
+                  }
+                }, 30);
+              } else {
+                lockText();
+              }
+            });
+
+            document.addEventListener('DOMContentLoaded', function () {
+              obs.observe(document.body, {
+                childList: true,
+                subtree: true,
+                characterData: true,
+                attributes: true,
+                attributeFilter: ['class', 'style']
+              });
+
+              /* Also poll every 100ms for 2s as a fallback */
+              var polls = 0;
+              var pollId = _setInterval(function () {
+                polls++;
+                var h1 = document.querySelector('h1');
+                if (h1 && !firstSeen) {
+                  firstSeen = true;
+                  _setTimeout(function () {
+                    killTimers();
+                    lockText();
+                    /* After locking, keep re-applying on any further changes */
+                    obs.observe(document.body, {
+                      childList: true, subtree: true,
+                      characterData: true, attributes: true,
+                      attributeFilter: ['class', 'style']
+                    });
+                  }, 800);
+                  _clearInterval(pollId);
+                }
+                if (polls > 20) _clearInterval(pollId);
+              }, 100);
+            });
+          })();
+
+
+        </script>
+    </head>
+    <body class="font-sans antialiased">
+        <div hidden="">
+          <!--$--><!--/$-->
+        </div>
+        <div class="min-h-screen bg-[var(--cream)] relative overflow-hidden">
+          <svg viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 absolute top-20 left-10 text-[var(--hot-pink)] animate-pulse" aria-hidden="true">
+              <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"></path>
+          </svg>
+          <svg viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8 absolute top-32 right-20 text-[var(--lime)] animate-bounce" aria-hidden="true">
+              <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"></path>
+          </svg>
+          <svg viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 absolute bottom-40 left-20 text-[var(--lime)] animate-pulse" aria-hidden="true">
+              <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"></path>
+          </svg>
+          <svg viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8 absolute top-60 left-1/4 text-[var(--hot-pink)] animate-bounce" aria-hidden="true">
+              <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"></path>
+          </svg>
+          <svg viewBox="0 0 100 20" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" class="w-20 h-5 absolute top-40 right-10 text-black opacity-30" aria-hidden="true">
+              <path d="M5 10 Q 15 5, 25 10 T 45 10 T 65 10 T 85 10 T 95 10"></path>
+          </svg>
+          <div class="container mx-auto px-4 py-8 max-w-4xl relative z-10">
+              <header class="text-center mb-12">
+                <h1 class="text-6xl md:text-8xl font-black uppercase tracking-tighter mb-4">
+    <span class="relative inline-block text-black">
+        <span class="relative z-10">Amazon Feedback</span>
+        <span class="absolute inset-0 text-[var(--hot-pink)] opacity-70 z-0" style="transform:translate(2px, 2px)">
+          Amazon Feedback
+        </span>
+        <span class="absolute inset-0 text-[var(--lime)] opacity-70 z-0" style="transform:translate(-2px, -2px)">
+          Amazon Feedback </span>
+    </span>
+  </h1>
+                <p class="text-xl font-mono bg-[var(--lavender)] inline-block px-4 py-2 border-3 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">// Professional Amazon sentiment analysis for product reviews //</p>
+              </header>
+              <!-- Textarea + Model Selector side by side -->
+              <div class="mb-6">
+                <label for="review-input" class="sr-only">Enter Amazon review text</label>
+                <textarea id="review-input" placeholder="Paste Amazon review text here. All input is processed and sentiment-related terms replace casual “vibe” language." class="w-full h-40 p-6 text-lg font-sans bg-white border-4 border-black rounded-2xl shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] resize-none focus:outline-none focus:ring-4 focus:ring-[var(--lime)] placeholder:text-gray-400 text-black"></textarea>
+              </div>
+
+            <div class="fixed left-10 top-1/2 -translate-y-1/2 z-50 w-44 p-3 bg-white border-4 border-black rounded-2xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex flex-col gap-3">
+                <div class="flex items-center justify-between">
+                  <span class="text-[10px] font-black uppercase tracking-widest text-gray-500">Model</span>
+                  <span id="model-label" class="text-[9px] font-black uppercase tracking-widest bg-[#f9a8d4] text-black px-2 py-0.5 border-2 border-black rounded-full">XGBoost</span>
+                </div>
+                <div class="flex flex-col gap-1 bg-[var(--lavender,#e9d5ff)] p-2 border-2 border-black rounded-xl">
+                  <div class="flex items-center justify-between text-[9px] font-black text-black mb-1">
+                    <span>XGB</span><span>MiniLM</span>
+                  </div>
+                  <input
+                    type="range"
+                    id="model-slider"
+                    min="0" max="2" step="1" value="0"
+                    class="w-full h-3 appearance-none cursor-pointer rounded-full bg-white border-2 border-black outline-none"
+                  />
+                </div>
+                <p id="model-desc" class="text-[9px] font-mono text-gray-600 leading-tight text-center">Gradient-boosted trees — fast &amp; interpretable.</p>
+              </div>            <div class="text-center mb-12"><button id="analyze-btn" disabled="" class="px-10 py-5 text-xl font-black uppercase tracking-wider bg-[var(--lime)] text-black border-4 border-black rounded-full shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-1 hover:translate-y-1 transition-all disabled:opacity-50 disabled:cursor-not-allowed">ANALYZE SENTIMENT</button></div>
+                <div id="loader" class="hidden text-center mt-4 text-xl font-black">
+                ⏳ Analyzing...
+              </div>
+        <style>
+    #model-slider { -webkit-appearance: none; appearance: none; }
+    #model-slider::-webkit-slider-thumb {
+      -webkit-appearance: none; appearance: none;
+      width: 20px; height: 20px; border-radius: 50%;
+      background: #a3e635; border: 3px solid black;
+      cursor: pointer; box-shadow: 1px 1px 0px rgba(0,0,0,1);
+      transition: transform 0.1s ease;
+    }
+    #model-slider::-webkit-slider-thumb:active { transform: scale(0.9); }
+    #model-slider::-moz-range-thumb {
+      width: 20px; height: 20px; border-radius: 50%;
+      background: #a3e635; border: 3px solid black;
+      cursor: pointer; box-shadow: 1px 1px 0px rgba(0,0,0,1);
+    }
+  </style> 
+              <script>
+                (function () {
+                  // var MODELS = [
+                  //   { key: 'xgboost',          label: 'XGBoost',        desc: 'Gradient-boosted trees — fast & interpretable.' },
+                  //   { key: 'all-minilm-l6-v2', label: 'all-MiniLM-L6-v2', desc: 'Sentence-transformer — deep semantic understanding.' }
+                  // ];
+
+                   var MODELS = [
+                              { key: 'xgboost', label: 'XGBoost', desc: 'Fast & powerful trees' },
+                              { key: 'logistic', label: 'LogReg', desc: 'Linear baseline model' },
+                              { key: 'minilm', label: 'MiniLM', desc: 'Deep semantic transformer' }
+                            ];
+
+                  
+                  var slider     = document.getElementById('model-slider');
+                  var labelEl    = document.getElementById('model-label');
+                  var descEl     = document.getElementById('model-desc');
+                  var textarea   = document.getElementById('review-input');
+                  var analyzeBtn = document.getElementById('analyze-btn');
+
+            function updateTrack(val) {
+    // We removed the buggy inline linear-gradient code!
+    // The slider track is now permanently styled by Tailwind,
+    // and the thumb moving visually indicates the selected model.
+  }
+                  function applyModel(idx) {
+                    labelEl.textContent = MODELS[idx].label;
+                    descEl.textContent  = MODELS[idx].desc;
+                    labelEl.style.background = idx === 0 ? 'var(--hot-pink)' : 'var(--lavender)';
+                    updateTrack(idx);
+                  }
+                  slider.addEventListener('input', function () { applyModel(parseInt(this.value, 10)); });
+
+                  function syncBtn() { analyzeBtn.disabled = textarea.value.trim() === ''; }
+                  textarea.addEventListener('input', syncBtn);
+
+                  analyzeBtn.addEventListener('click', async function () {
+  var text     = textarea.value.trim();
+  var modelIdx = parseInt(slider.value, 10);
+  var modelKey = MODELS[modelIdx].key;
+
+  if (!text) return;
+
+  try {
+    loader.classList.remove("hidden");
+    analyzeBtn.disabled = true;
+    analyzeBtn.textContent = "ANALYZING...";
+
+    const response = await fetch("http://localhost:8765/classify", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        texts: [text],
+        model: modelKey,
+        return_probabilities: true
+      })
+    });
+
+    const data = await response.json();
+    const result = data.predictions[0];
+
+    // 🎯 UI update
+    document.querySelector(".text-4xl.font-black.text-black.mb-6")
+      .textContent = (result.confidence * 100).toFixed(2) + "%";
+
+    document.querySelector(".h-28")
+      .textContent = result.explanation
+        ? result.explanation.map(w => w[0]).join(", ")
+        : `${result.label.toUpperCase()} sentiment detected`;
+
+  } catch (err) {
+    console.error(err);
+    alert("Error connecting to API");
+  } finally {
+    loader.classList.add("hidden");
+    analyzeBtn.disabled = false;
+    analyzeBtn.textContent = "ANALYZE SENTIMENT";
+  }
+});
+                  applyModel(0);
+                  syncBtn();
+                })();
+              </script>
+              <div class="max-w-3xl mx-auto mb-12 p-6 bg-white border-4 border-black rounded-3xl shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+                <p class="text-sm uppercase tracking-[0.35em] text-gray-700 mb-3">Confidence score</p>
+                <div class="text-4xl font-black text-black mb-6">--%</div>
+                <div class="h-28 border-4 border-black rounded-3xl bg-[var(--lavender)] p-4 flex items-center justify-center text-sm text-gray-600">
+                    Key sentiment words and phrases will appear here.
+                </div>
+              </div>
+              <footer class="mt-16 text-center">
+                <svg viewBox="0 0 100 20" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" class="w-20 h-5 mx-auto text-[var(--hot-pink)]" aria-hidden="true">
+                    <path d="M5 10 Q 15 5, 25 10 T 45 10 T 65 10 T 85 10 T 95 10"></path>
+                </svg>
+                <p class="mt-4 font-mono text-sm text-gray-500">
+                    &lt;/<!-- --> made with sentiment <!-- -->/&gt;
+                </p>
+              </footer>
+          </div>
+        </div>
+        <!--$--><!--/$--><!--$!-->
+    
+    </body>
+  </html>
